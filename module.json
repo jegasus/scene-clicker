@@ -1,0 +1,19 @@
+{
+  "name": "scene-clicker",
+  "title": "Scene Clicker",
+  "description": "Makes left-clicking on a Scene \"view\" the Scene instead of pop-up the Scene Config Sheet.",
+  "version": "0.0.1",
+  "minimumCoreVersion": "0.7.7",
+  "compatibleCoreVersion": "0.7.7",
+  "author": "jegasus",
+  "dependencies": [
+
+  ],
+  "esmodules": [
+        "scripts/scene-clicker.js",
+        "scripts/shim.js"
+    ],
+  "url": "https://github.com/jegasus/scene-clicker",
+  "manifest": "https://github.com/jegasus/scene-clicker/releases/download/latest/module.json",
+  "download": "https://github.com/jegasus/scene-clicker/releases/download/0.0.1/module.zip"
+}
