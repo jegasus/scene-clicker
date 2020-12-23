@@ -14,6 +14,6 @@
         "scripts/shim.js"
     ],
   "url": "https://github.com/jegasus/scene-clicker",
-  "manifest": "https://github.com/jegasus/scene-clicker/releases/download/latest/module.json",
-  "download": "https://github.com/jegasus/scene-clicker/releases/download/0.0.1/module.zip"
+  "manifest": "https://github.com/jegasus/scene-clicker/releases/latest/download/module.json",
+  "download": "https://github.com/jegasus/scene-clicker/releases/latest/download/module.zip"
 }
