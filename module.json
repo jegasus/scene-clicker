@@ -2,7 +2,7 @@
   "name": "scene-clicker",
   "title": "Scene Clicker",
   "description": "Makes left-clicking on a Scene \"view\" the Scene instead of displaying the Scene Config Sheet.",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "minimumCoreVersion": "0.7.7",
   "compatibleCoreVersion": "0.7.9",
   "author": "jegasus",
