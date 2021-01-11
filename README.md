@@ -17,6 +17,7 @@ This module requires no setup. Simply activating it in your world will override 
 - Step 3: bask in the glory of viewing the Scene instead of having the Scene Config Sheet pop up
 
 ![Journal scaler in action](img/module_in_action.gif)
+
 ![Journal scaler in action with Journal links](img/module_in_action_2.gif)
 
 # Changelog
