@@ -23,7 +23,7 @@ This module requires no setup. Simply activating it in your world will override 
 # Changelog
 
 ## 0.0.7 - Released on 2021-01-10
-Added support to clicking on Journal links. Special thanks to [ruipin](https://github.com/ruipin) for his help troubleshooting!!!!
+Added support to clicks on Journal links. Special thanks to [ruipin](https://github.com/ruipin) for his help troubleshooting!!!!
 
 ## 0.0.6 - Released on 2020-12-25
 Initial release. Merry Christmas, y'all <3
