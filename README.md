@@ -1,7 +1,7 @@
 ![](https://img.shields.io/badge/Foundry-v0.7.7-informational) 
 ![](https://img.shields.io/badge/Foundry-v0.7.8-informational)
 ![](https://img.shields.io/badge/Foundry-v0.7.9-informational)
-
+![GitHub All Releases](https://img.shields.io/github/downloads/jegasus/scene-clicker/total?label=Downloads+total)  
 ![Latest Release Download Count](https://img.shields.io/github/downloads/jegasus/scene-clicker/latest/module.zip)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fscene-clicker&colorB=4aa94a)
 
@@ -17,8 +17,12 @@ This module requires no setup. Simply activating it in your world will override 
 - Step 3: bask in the glory of viewing the Scene instead of having the Scene Config Sheet pop up
 
 ![Journal scaler in action](img/module_in_action.gif)
+![Journal scaler in action with Journal links](img/module_in_action_2.gif)
 
 # Changelog
+
+## 0.0.7 - Released on 2021-01-??
+Added support to clicking on Journal links. Special thanks to [ruipin](https://github.com/ruipin)!!!!
 
 ## 0.0.6 - Released on 2020-12-25
 Initial release. Merry Christmas, y'all <3
