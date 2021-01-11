@@ -13,7 +13,7 @@ This module requires no setup. Simply activating it in your world will override 
 
 # Instructions
 - Step 1: activate this module in your world 
-- Step 2: in the `Scenes Directory` panel, left-click on any of your scenes
+- Step 2: in the `Scenes Directory` panel or in journal entries, left-click on any of your scenes
 - Step 3: bask in the glory of viewing the Scene instead of having the Scene Config Sheet pop up
 
 ![Journal scaler in action](img/module_in_action.gif)
