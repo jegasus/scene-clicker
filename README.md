@@ -6,7 +6,7 @@
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fscene-clicker&colorB=4aa94a)
 
 # Scene Clicker
-A [FoundryVTT](https://foundryvtt.com/) module that changes the behavior of left clicking on a Scene. When this module is activated, ileft-clicking on a Scene will "view" the Scene instead of rendering the Scene Config Sheet.
+A [FoundryVTT](https://foundryvtt.com/) module that changes the behavior of left clicking on a Scene or a Scene Link. When this module is activated, left-clicking on a Scene or a Scene Link will "view" the Scene instead of rendering the Scene Config Sheet.
 
 # Instructions
 This module requires no setup. Simply activating it in your world will override the left-click behavior on Scenes.
