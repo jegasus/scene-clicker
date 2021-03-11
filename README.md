@@ -16,7 +16,7 @@ This module requires no setup. Simply activating it in your world will override 
 - Step 2: in the Scenes Directory panel or in Journal Entries, left-click on any of your scenes
 - Step 3: bask in the glory of viewing the Scene instead of having the Scene Config Sheet pop up
 
-Additional options: hold <kb>Ctrl</kb> to Activate the Scene or hold <kb>Alt</kb> to render the Config Sheet.
+<ins>**Additional options**</ins>: hold <kbd>Ctrl</kbd> to Activate the Scene or hold <kbd>Alt</kbd> to render the Config Sheet.
 
 ![Journal scaler in action](img/module_in_action.gif)
 
