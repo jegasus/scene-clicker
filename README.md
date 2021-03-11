@@ -25,7 +25,7 @@ This module requires no setup. Simply activating it in your world will override 
 # Changelog
 
 ## 0.0.8 - Released on 2021-03-10
-Added extra functionality: Use Ctrl+Click to Activate Scene and Alt+Click to Render the Scene Config Sheet 
+Added extra functionality: Use Ctrl+LeftClick to Activate Scene and Alt+LeftClick to Render the Scene Config Sheet 
 
 ## 0.0.7 - Released on 2021-01-10
 Added support to clicks on Journal links. Special thanks to [ruipin](https://github.com/ruipin) for his help troubleshooting!!!!
