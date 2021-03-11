@@ -21,11 +21,33 @@ Hooks.once('setup', function () {
         const element = event.currentTarget;
         const entityId = element.parentElement.dataset.entityId;
         const entity = this.constructor.collection.get(entityId);
+        const sheet = entity.sheet;
 
+        // If the clicked entity is a Scene,
+        // we need to handle three different cases:
+        // -Ctrl pressed (to activate)
+        // -Alt pressed (to render sheet)
+        // -Nothing pressed (to view)
         if (entity.entity == "Scene") {
-          entity.view();
+          if (event.ctrlKey && !event.altKey) {
+            entity.activate();
+          }
+          else if (!event.ctrlKey && event.altKey) {
+            // If the sheet is already rendered:
+            if ( sheet.rendered ) {
+              sheet.maximize();
+              sheet.bringToTop();
+            }
+    
+            // Otherwise render the sheet
+              else sheet.render(true);
+          }
+          
+          else if (!event.ctrlKey && !event.altKey) {
+            entity.view();
+          }
         }
-        else return existing_onClickEntityName.bind(this)(event)
+        else return existing_onClickEntityName.bind(this)(event);
     },
     'MIXED',
   )
@@ -33,7 +55,7 @@ Hooks.once('setup', function () {
 
 
 // Takes care of left-clicking on a Scene link inside a journal entry
-// Wrapped the following function:
+// Wraps the following function:
 // TextEditor._onClickEntityLink
 // Address in foundry.js: line 13984
 Hooks.on('init', () => {
@@ -48,21 +70,45 @@ Hooks.on('init', () => {
 
 function new_onClickEntityLink(event,existing_onClickEntityLink){
   event.preventDefault();
-  const  a = event.currentTarget;
+  const currentTarget = event.currentTarget;
   let entity = null;
+  
 
   // Target is World Entity Link
-  if ( !a.dataset.pack ) {
-    const cls = CONFIG[a.dataset.entity].entityClass;
-    entity = cls.collection.get(a.dataset.id);
+  if ( !currentTarget.dataset.pack ) {
+    const cls = CONFIG[currentTarget.dataset.entity].entityClass;
+    entity = cls.collection.get(currentTarget.dataset.id);
     if ( entity.entity === "Scene"){
       if ( !entity.hasPerm(game.user, "LIMITED") ) {
         return ui.notifications.warn(`You do not have permission to view this Scene.`);
       }
       else {
-        return entity.view();
+        // If the clicked entity link is a Scene,
+        // we need to handle three different cases:
+        // -Ctrl pressed (to activate)
+        // -Alt pressed (to render sheet)
+        // -Nothing pressed (to view)
+        if (event.ctrlKey && !event.altKey) {
+          entity.activate();
+        }
+        else if (!event.ctrlKey && event.altKey ) {
+          // If the sheet is already rendered:
+          if ( entity.sheet.rendered ) {
+            entity.sheet.maximize();
+            entity.sheet.bringToTop();
+          }
+  
+          // Otherwise render the sheet
+            else entity.sheet.render(true);
+        }
+        
+        else if (!event.ctrlKey && !event.altKey) {
+          entity.view();
+        }
+
       }
     }
+    else return existing_onClickEntityLink.bind(this)(event)
   }
-  return existing_onClickEntityLink.bind(this)(event)
+  else return existing_onClickEntityLink.bind(this)(event)
 }

@@ -16,11 +16,16 @@ This module requires no setup. Simply activating it in your world will override 
 - Step 2: in the Scenes Directory panel or in Journal Entries, left-click on any of your scenes
 - Step 3: bask in the glory of viewing the Scene instead of having the Scene Config Sheet pop up
 
+Additional options: hold <kb>Ctrl</kb> to Activate the Scene or hold <kb>Alt</kb> to render the Config Sheet.
+
 ![Journal scaler in action](img/module_in_action.gif)
 
 ![Journal scaler in action with Journal links](img/module_in_action_2.gif)
 
 # Changelog
+
+## 0.0.8 - Released on 2021-03-10
+Added extra functionality: Use Ctrl+Click to Activate Scene and Alt+Click to Render the Scene Config Sheet 
 
 ## 0.0.7 - Released on 2021-01-10
 Added support to clicks on Journal links. Special thanks to [ruipin](https://github.com/ruipin) for his help troubleshooting!!!!
