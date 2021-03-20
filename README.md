@@ -13,7 +13,7 @@ This module requires no setup. Simply activating it in your world will override 
 
 # Instructions
 - Step 1: activate this module in your world 
-- Step 2: in the Scenes Directory panel or in Journal Entries, left-click on any of your scenes
+- Step 2: in the Scenes Directory panel, in Journal Entries or on the Navigation menu, left-click on any of your scenes
 - Step 3: bask in the glory of viewing the Scene instead of having the Scene Config Sheet pop up
 
 <ins>**Additional options**</ins>: hold <kbd>Ctrl</kbd> to Activate the Scene or hold <kbd>Alt</kbd> to render the Config Sheet.
@@ -24,8 +24,11 @@ This module requires no setup. Simply activating it in your world will override 
 
 # Changelog
 
+## 0.0.9 - Released on 2021-03-19
+Added extra functionality: The hotkeys now work when clicking on the Scenes in the navigation bar too!
+
 ## 0.0.8 - Released on 2021-03-10
-Added extra functionality: Use Ctrl+LeftClick to Activate Scene and Alt+LeftClick to Render the Scene Config Sheet 
+Added extra functionality: Use Ctrl+LeftClick to Activate Scene and Alt+LeftClick to Render the Scene Config Sheet.
 
 ## 0.0.7 - Released on 2021-01-10
 Added support to clicks on Journal links. Special thanks to [ruipin](https://github.com/ruipin) for his help troubleshooting!!!!

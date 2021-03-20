@@ -32,20 +32,26 @@ Hooks.once('setup', function () {
           if (event.ctrlKey && !event.altKey) {
             entity.activate();
           }
+
           else if (!event.ctrlKey && event.altKey) {
-            // If the sheet is already rendered:
-            if ( sheet.rendered ) {
-              sheet.maximize();
-              sheet.bringToTop();
-            }
-    
-            // Otherwise render the sheet
+            
+            // Only GMs are allowed to see the config sheet.
+            if (game.user.isGM) {
+              // If the sheet is already rendered:
+              if ( sheet.rendered ) {
+                sheet.maximize();
+                sheet.bringToTop();
+              }
+      
+              // Otherwise render the sheet
               else sheet.render(true);
+            }
+            else return existing_onClickEntityName.bind(this)(event);
           }
-          
           else if (!event.ctrlKey && !event.altKey) {
             entity.view();
           }
+          else return existing_onClickEntityName.bind(this)(event);
         }
         else return existing_onClickEntityName.bind(this)(event);
     },
@@ -68,11 +74,11 @@ Hooks.on('init', () => {
     "MIXED");
 });
 
+// New function for clicking on a Journal link
 function new_onClickEntityLink(event,existing_onClickEntityLink){
   event.preventDefault();
   const currentTarget = event.currentTarget;
   let entity = null;
-  
 
   // Target is World Entity Link
   if ( !currentTarget.dataset.pack ) {
@@ -92,23 +98,79 @@ function new_onClickEntityLink(event,existing_onClickEntityLink){
           entity.activate();
         }
         else if (!event.ctrlKey && event.altKey ) {
-          // If the sheet is already rendered:
-          if ( entity.sheet.rendered ) {
-            entity.sheet.maximize();
-            entity.sheet.bringToTop();
-          }
-  
-          // Otherwise render the sheet
+          
+          // Only GMs are allowed to see the config sheet.
+          if (game.user.isGM) {
+            // If the sheet is already rendered:
+            if ( entity.sheet.rendered ) {
+              entity.sheet.maximize();
+              entity.sheet.bringToTop();
+            }
+    
+            // Otherwise render the sheet
             else entity.sheet.render(true);
+          }
+          else return existing_onClickEntityLink.bind(this)(event)
         }
         
         else if (!event.ctrlKey && !event.altKey) {
           entity.view();
         }
-
+        else return existing_onClickEntityLink.bind(this)(event);
       }
     }
     else return existing_onClickEntityLink.bind(this)(event)
   }
   else return existing_onClickEntityLink.bind(this)(event)
+}
+
+
+// Takes care of left-clicking on a Scene in the navigation menu
+// at the top of the screen.
+// Wraps the following function:
+// SceneNavigation._onClickScene
+// Address in foundry.js: line 21223
+Hooks.on('init', () => {
+  libWrapper.register(
+    MODULE_ID, 
+    'SceneNavigation.prototype._onClickScene', 
+    function(existing_onClickScene, event) {
+      return new_onClickScene.bind(this)(event, existing_onClickScene);
+    }, 
+    "MIXED");
+});
+
+// New function for clicking on a scene in the navigation bar
+function new_onClickScene(event,existing_onClickScene){
+  event.preventDefault();
+  let sceneId = event.currentTarget.dataset.sceneId;
+  let entity = game.scenes.get(sceneId);
+  
+  // If the clicked entity link is a Scene,
+  // we need to handle three different cases:
+  // -Ctrl pressed (to activate)
+  // -Alt pressed (to render sheet)
+  // -Nothing pressed (to view)
+  if (event.ctrlKey && !event.altKey) {
+    entity.activate();
+  }
+  else if (!event.ctrlKey && event.altKey ) {
+    // Only the GM is allowed to see the config sheet
+    if (game.user.isGM) {
+      // If the sheet is already rendered:
+      if ( entity.sheet.rendered ) {
+        entity.sheet.maximize();
+        entity.sheet.bringToTop();
+      }
+
+      // Otherwise render the sheet
+      else entity.sheet.render(true);
+    }
+    else return existing_onClickScene.bind(this)(event);
+  }
+  
+  else if (!event.ctrlKey && !event.altKey) {
+    entity.view();
+  }
+  else return existing_onClickScene.bind(this)(event);
 }
