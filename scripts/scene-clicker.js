@@ -62,30 +62,30 @@ Hooks.once('setup', function () {
 
 // Takes care of left-clicking on a Scene link inside a journal entry
 // Wraps the following function:
-// TextEditor._onClickEntityLink
-// Address in foundry.js: line 13984
+// TextEditor._onClickContentLink
+// Address in foundry.js: line 21212
 Hooks.on('init', () => {
   libWrapper.register(
     MODULE_ID, 
-    'TextEditor._onClickEntityLink', 
-    function(existing_onClickEntityLink, event) {
-      return new_onClickEntityLink.bind(this)(event, existing_onClickEntityLink);
+    'TextEditor._onClickContentLink', 
+    function(existing_onClickContentLink, event) {
+      return new_onClickContentLink.bind(this)(event, existing_onClickContentLink);
     }, 
     "MIXED");
 });
 
 // New function for clicking on a Journal link
-function new_onClickEntityLink(event,existing_onClickEntityLink){
+function new_onClickContentLink(event,existing_onClickContentLink){
   event.preventDefault();
   const currentTarget = event.currentTarget;
-  let entity = null;
+  let document = null;
 
   // Target is World Entity Link
   if ( !currentTarget.dataset.pack ) {
-    const cls = CONFIG[currentTarget.dataset.entity].entityClass;
-    entity = cls.collection.get(currentTarget.dataset.id);
-    if ( entity.entity === "Scene"){
-      if ( !entity.hasPerm(game.user, "LIMITED") ) {
+    const collection = game.collections.get(currentTarget.dataset.entity);
+    document = collection.get(currentTarget.dataset.id);
+    if ( document.documentName === "Scene" ){
+      if ( !document.testUserPermission(game.user, "LIMITED") ) {
         return ui.notifications.warn(`You do not have permission to view this Scene.`);
       }
       else {
@@ -95,33 +95,33 @@ function new_onClickEntityLink(event,existing_onClickEntityLink){
         // -Alt pressed (to render sheet)
         // -Nothing pressed (to view)
         if (event.ctrlKey && !event.altKey) {
-          entity.activate();
+          document.activate();
         }
         else if (!event.ctrlKey && event.altKey ) {
           
           // Only GMs are allowed to see the config sheet.
           if (game.user.isGM) {
             // If the sheet is already rendered:
-            if ( entity.sheet.rendered ) {
-              entity.sheet.maximize();
-              entity.sheet.bringToTop();
+            if ( document.sheet.rendered ) {
+              document.sheet.maximize();
+              document.sheet.bringToTop();
             }
     
             // Otherwise render the sheet
-            else entity.sheet.render(true);
+            else document.sheet.render(true);
           }
-          else return existing_onClickEntityLink.bind(this)(event)
+          else return existing_onClickContentLink.bind(this)(event)
         }
         
         else if (!event.ctrlKey && !event.altKey) {
-          entity.view();
+          document.view();
         }
-        else return existing_onClickEntityLink.bind(this)(event);
+        else return existing_onClickContentLink.bind(this)(event);
       }
     }
-    else return existing_onClickEntityLink.bind(this)(event)
+    else return existing_onClickContentLink.bind(this)(event)
   }
-  else return existing_onClickEntityLink.bind(this)(event)
+  else return existing_onClickContentLink.bind(this)(event)
 }
 
 
