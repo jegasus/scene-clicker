@@ -1,4 +1,4 @@
-import { libWrapper } from './shim.js';
+//import { libWrapper } from './shim.js';
 
 const MODULE_ID = 'scene-clicker';
 const MODULE_NAME = "Scene Clicker";
@@ -10,6 +10,11 @@ function getSetting (settingName) {
 //CONFIG.debug.hooks = true;
 
 console.log("PREPARE TO HAVE YOUR MINDS BLOWN BY THE SHEER POWER OF THIS MODULE.");
+
+Hooks.once('ready', () => {
+  if(!game.modules.get('lib-wrapper')?.active && game.user.isGM)
+      ui.notifications.error("The 'Scene Clicker' module requires the 'libWrapper' module. Please install and activate it.");
+});
 
 // Takes care of left-clicking on a Scene in the right-hand panel 
 Hooks.once('setup', function () {
