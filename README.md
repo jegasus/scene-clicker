@@ -27,6 +27,8 @@ Activating both modules in your world will override the left-click behavior on S
 ## 0.0.10 - Released on 2021-08-01
 Enormous thanks to [Alessio Calì](https://github.com/alessiocali) for making the required changes to update the Scene Clicker module to 0.8.x.
 
+Removed the use of the `libWrapper` shim. Now, the full `libWrapper` library is required to run this module.
+
 ## 0.0.9 - Released on 2021-03-19
 Added extra functionality: The hotkeys now work when clicking on the Scenes in the navigation bar too!
 
