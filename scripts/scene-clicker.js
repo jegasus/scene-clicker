@@ -20,22 +20,22 @@ Hooks.once('ready', () => {
 Hooks.once('setup', function () {
   libWrapper.register( 
     MODULE_ID, 
-    'SidebarDirectory.prototype._onClickEntityName', 
-      function(existing_onClickEntityName, event) {
+    'SidebarDirectory.prototype._onClickDocumentName', 
+      function(existing_onClickDocumentName, event) {
         
         const element = event.currentTarget;
-        const entityId = element.parentElement.dataset.entityId;
-        const entity = this.constructor.collection.get(entityId);
-        const sheet = entity.sheet;
+        const documentId = element.parentElement.dataset.documentId;
+        const document = this.constructor.collection.get(documentId);
+        const sheet = document.sheet;
 
-        // If the clicked entity is a Scene,
+        // If the clicked document is a Scene,
         // we need to handle three different cases:
         // -Ctrl pressed (to activate)
         // -Alt pressed (to render sheet)
         // -Nothing pressed (to view)
-        if (entity.entity == "Scene") {
+        if (document.documentName == "Scene") {
           if (event.ctrlKey && !event.altKey) {
-            entity.activate();
+            document.activate();
           }
 
           else if (!event.ctrlKey && event.altKey) {
@@ -51,14 +51,14 @@ Hooks.once('setup', function () {
               // Otherwise render the sheet
               else sheet.render(true);
             }
-            else return existing_onClickEntityName.bind(this)(event);
+            else return existing_onClickDocumentName.bind(this)(event);
           }
           else if (!event.ctrlKey && !event.altKey) {
-            entity.view();
+            document.view();
           }
-          else return existing_onClickEntityName.bind(this)(event);
+          else return existing_onClickDocumentName.bind(this)(event);
         }
-        else return existing_onClickEntityName.bind(this)(event);
+        else return existing_onClickDocumentName.bind(this)(event);
     },
     'MIXED',
   )
@@ -85,16 +85,16 @@ function new_onClickContentLink(event,existing_onClickContentLink){
   const currentTarget = event.currentTarget;
   let document = null;
 
-  // Target is World Entity Link
+  // Target is World Document Link
   if ( !currentTarget.dataset.pack ) {
-    const collection = game.collections.get(currentTarget.dataset.entity);
+    const collection = game.collections.get(currentTarget.dataset.type);
     document = collection.get(currentTarget.dataset.id);
     if ( document.documentName === "Scene" ){
       if ( !document.testUserPermission(game.user, "LIMITED") ) {
         return ui.notifications.warn(`You do not have permission to view this Scene.`);
       }
       else {
-        // If the clicked entity link is a Scene,
+        // If the clicked document link is a Scene,
         // we need to handle three different cases:
         // -Ctrl pressed (to activate)
         // -Alt pressed (to render sheet)
@@ -149,33 +149,33 @@ Hooks.on('init', () => {
 function new_onClickScene(event,existing_onClickScene){
   event.preventDefault();
   let sceneId = event.currentTarget.dataset.sceneId;
-  let entity = game.scenes.get(sceneId);
+  let document = game.scenes.get(sceneId);
   
-  // If the clicked entity link is a Scene,
+  // If the clicked document link is a Scene,
   // we need to handle three different cases:
   // -Ctrl pressed (to activate)
   // -Alt pressed (to render sheet)
   // -Nothing pressed (to view)
   if (event.ctrlKey && !event.altKey) {
-    entity.activate();
+    document.activate();
   }
   else if (!event.ctrlKey && event.altKey ) {
     // Only the GM is allowed to see the config sheet
     if (game.user.isGM) {
       // If the sheet is already rendered:
-      if ( entity.sheet.rendered ) {
-        entity.sheet.maximize();
-        entity.sheet.bringToTop();
+      if ( document.sheet.rendered ) {
+        document.sheet.maximize();
+        document.sheet.bringToTop();
       }
 
       // Otherwise render the sheet
-      else entity.sheet.render(true);
+      else document.sheet.render(true);
     }
     else return existing_onClickScene.bind(this)(event);
   }
   
   else if (!event.ctrlKey && !event.altKey) {
-    entity.view();
+    document.view();
   }
   else return existing_onClickScene.bind(this)(event);
 }
