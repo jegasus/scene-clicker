@@ -3,13 +3,79 @@
 const MODULE_ID = 'scene-clicker';
 const MODULE_NAME = "Scene Clicker";
 
+function handleSceneClicked(event, document)
+{
+    if (document.documentName != "Scene") {
+        return false;
+    }
+
+    if ( !document.testUserPermission(game.user, "LIMITED") ) {
+      ui.notifications.warn(`You do not have permission to view this Scene.`);
+      return false;
+    }
+
+    return getSceneClickEventHandler(event)(document);
+}
+
+function getSceneClickEventHandler(event)
+{
+    // If the clicked document is a Scene,
+    // we need to handle three different cases:
+    // -Ctrl pressed (to activate)
+    // -Alt pressed (to render sheet)
+    // -Nothing pressed (to view)
+    if (event.ctrlKey && !event.altKey) {
+        return onActivateRequested;
+    }
+    else if (!event.ctrlKey && event.altKey) {
+        return onRenderRequested;
+    }
+    else if (!event.ctrlKey && !event.altKey) {
+        return onViewRequested;
+    }
+    else {
+        return function (document) { return false; };
+    }
+}
+
+function onActivateRequested(document)
+{
+    document.activate();
+    return true;
+}
+
+function onRenderRequested(document)
+{
+    if (!game.user.isGM) {
+        return false;
+    }
+
+    const sheet = document.sheet;
+
+    // If the sheet is already rendered:
+    if ( sheet.rendered ) {
+        sheet.maximize();
+        sheet.bringToTop();
+    }
+    // Otherwise render the sheet
+    else {
+        sheet.render(true);
+    }
+
+    return true;
+}
+
+function onViewRequested(document)
+{
+    document.view();
+    return true;
+}
+
 function getSetting (settingName) {
   return game.settings.get(MODULE_ID, settingName)
 }
 
 //CONFIG.debug.hooks = true;
-
-console.log("PREPARE TO HAVE YOUR MINDS BLOWN BY THE SHEER POWER OF THIS MODULE.");
 
 Hooks.once('ready', () => {
   if(!game.modules.get('lib-wrapper')?.active && game.user.isGM)
@@ -22,48 +88,22 @@ Hooks.once('setup', function () {
     MODULE_ID, 
     'SidebarDirectory.prototype._onClickDocumentName', 
       function(existing_onClickDocumentName, event) {
-        
-        const element = event.currentTarget;
-        const documentId = element.parentElement.dataset.documentId;
-        const document = this.constructor.collection.get(documentId);
-        const sheet = document.sheet;
-
-        // If the clicked document is a Scene,
-        // we need to handle three different cases:
-        // -Ctrl pressed (to activate)
-        // -Alt pressed (to render sheet)
-        // -Nothing pressed (to view)
-        if (document.documentName == "Scene") {
-          if (event.ctrlKey && !event.altKey) {
-            document.activate();
-          }
-
-          else if (!event.ctrlKey && event.altKey) {
-            
-            // Only GMs are allowed to see the config sheet.
-            if (game.user.isGM) {
-              // If the sheet is already rendered:
-              if ( sheet.rendered ) {
-                sheet.maximize();
-                sheet.bringToTop();
-              }
-      
-              // Otherwise render the sheet
-              else sheet.render(true);
-            }
-            else return existing_onClickDocumentName.bind(this)(event);
-          }
-          else if (!event.ctrlKey && !event.altKey) {
-            document.view();
-          }
-          else return existing_onClickDocumentName.bind(this)(event);
-        }
-        else return existing_onClickDocumentName.bind(this)(event);
-    },
+        return new_onClickDocumentName.bind(this)(event, existing_onClickDocumentName);
+      },
     'MIXED',
   )
 })
 
+// New function for clicking on a Scene in the right-hand panel
+function new_onClickDocumentName(event, existing_onClickDocumentName) {
+  const element = event.currentTarget;
+  const documentId = element.parentElement.dataset.documentId;
+  const document = this.constructor.collection.get(documentId);
+
+  if (!handleSceneClicked(event, document)) {
+    return existing_onClickDocumentName.bind(this)(event);
+  }
+}
 
 // Takes care of left-clicking on a Scene link inside a journal entry
 // Wraps the following function:
@@ -85,50 +125,18 @@ function new_onClickContentLink(event,existing_onClickContentLink){
   const currentTarget = event.currentTarget;
   let document = null;
 
-  // Target is World Document Link
-  if ( !currentTarget.dataset.pack ) {
-    const collection = game.collections.get(currentTarget.dataset.type);
-    document = collection.get(currentTarget.dataset.id);
-    if ( document.documentName === "Scene" ){
-      if ( !document.testUserPermission(game.user, "LIMITED") ) {
-        return ui.notifications.warn(`You do not have permission to view this Scene.`);
-      }
-      else {
-        // If the clicked document link is a Scene,
-        // we need to handle three different cases:
-        // -Ctrl pressed (to activate)
-        // -Alt pressed (to render sheet)
-        // -Nothing pressed (to view)
-        if (event.ctrlKey && !event.altKey) {
-          document.activate();
-        }
-        else if (!event.ctrlKey && event.altKey ) {
-          
-          // Only GMs are allowed to see the config sheet.
-          if (game.user.isGM) {
-            // If the sheet is already rendered:
-            if ( document.sheet.rendered ) {
-              document.sheet.maximize();
-              document.sheet.bringToTop();
-            }
-    
-            // Otherwise render the sheet
-            else document.sheet.render(true);
-          }
-          else return existing_onClickContentLink.bind(this)(event)
-        }
-        
-        else if (!event.ctrlKey && !event.altKey) {
-          document.view();
-        }
-        else return existing_onClickContentLink.bind(this)(event);
-      }
-    }
-    else return existing_onClickContentLink.bind(this)(event)
+  // Target is not World Document Link, defer to existing callback.
+  if ( currentTarget.dataset.pack ) {
+    return existing_onClickContentLink.bind(this)(event);
   }
-  else return existing_onClickContentLink.bind(this)(event)
-}
+  
+  const collection = game.collections.get(currentTarget.dataset.type);
+  document = collection.get(currentTarget.dataset.id);
 
+  if (!handleSceneClicked(event, document)) {
+    return existing_onClickContentLink.bind(this)(event);
+  }
+}
 
 // Takes care of left-clicking on a Scene in the navigation menu
 // at the top of the screen.
@@ -150,32 +158,8 @@ function new_onClickScene(event,existing_onClickScene){
   event.preventDefault();
   let sceneId = event.currentTarget.dataset.sceneId;
   let document = game.scenes.get(sceneId);
-  
-  // If the clicked document link is a Scene,
-  // we need to handle three different cases:
-  // -Ctrl pressed (to activate)
-  // -Alt pressed (to render sheet)
-  // -Nothing pressed (to view)
-  if (event.ctrlKey && !event.altKey) {
-    document.activate();
-  }
-  else if (!event.ctrlKey && event.altKey ) {
-    // Only the GM is allowed to see the config sheet
-    if (game.user.isGM) {
-      // If the sheet is already rendered:
-      if ( document.sheet.rendered ) {
-        document.sheet.maximize();
-        document.sheet.bringToTop();
-      }
 
-      // Otherwise render the sheet
-      else document.sheet.render(true);
-    }
-    else return existing_onClickScene.bind(this)(event);
+  if (!handleSceneClicked(event, document)) {
+    return existing_onClickScene.bind(this)(event);
   }
-  
-  else if (!event.ctrlKey && !event.altKey) {
-    document.view();
-  }
-  else return existing_onClickScene.bind(this)(event);
 }
