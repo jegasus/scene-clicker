@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/Foundry-v0.8.8-informational)
+![](https://img.shields.io/badge/Foundry-v9-informational)
 ![GitHub All Releases](https://img.shields.io/github/downloads/jegasus/scene-clicker/total?label=Downloads+total)  
 ![Latest Release Download Count](https://img.shields.io/github/downloads/jegasus/scene-clicker/latest/module.zip)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fscene-clicker&colorB=4aa94a)
@@ -24,8 +24,12 @@ Activating both modules in your world will override the left-click behavior on S
 
 # Changelog
 
+## 0.0.11 - Released on 2022-01-09
+Again, enormous thanks to [Alessio Calì](https://github.com/alessiocali) for making the required changes to update the Scene Clicker module for Foundry V9.
+
+
 ## 0.0.10 - Released on 2021-08-01
-Enormous thanks to [Alessio Calì](https://github.com/alessiocali) for making the required changes to update the Scene Clicker module to 0.8.x.
+Enormous thanks to [Alessio Calì](https://github.com/alessiocali) for making the required changes to update the Scene Clicker module for Foundry 0.8.x.
 
 Removed the use of the `libWrapper` shim. Now, the full `libWrapper` library is required to run this module.
 
