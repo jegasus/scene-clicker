@@ -1,34 +1,33 @@
 {
-  "name": "scene-clicker",
-  "title": "Scene Clicker",
-  "description": "Makes left-clicking on a Scene \"view\" the Scene instead of displaying the Scene Config Sheet.",
-  "version": "0.0.11",
-  "minimumCoreVersion": "9.238",
-  "compatibleCoreVersion": "9.242",
-  "author": "jegasus",
-  "authors": [
-    {
-      "name": "jegasus",
-      "discord": "jegasus#1367"
-    },
-    {
-      "name": "Alessio Giuseppe Cali'",
-      "url": "https://alessiogcali.com/"
-    }
-  ],
-  "esmodules": [
-        "scripts/scene-clicker.js"
-    ],
-  "dependencies": [
-    {
-          "name": "lib-wrapper"
-    }
-  ],
-  "url": "https://github.com/jegasus/scene-clicker",
-  "manifest": "https://github.com/jegasus/scene-clicker/releases/latest/download/module.json",
-  "download": "https://github.com/jegasus/scene-clicker/releases/download/0.0.11/module.zip",
-  "bugs": "https://github.com/jegasus/scene-clicker/issues",
-  "flags": {
-    "allowBugReporter": true
-  }
+	"id": "scene-clicker",
+	"title": "Scene Clicker",
+	"description": "Makes left-clicking on a Scene \"view\" the Scene instead of displaying the Scene Config Sheet.",
+	"version": "0.0.11",
+	"compatibility": {
+		"minimum": "10",
+		"verified": "10.291"
+	},
+	"authors": [
+		{
+			"name": "jegasus",
+			"discord": "jegasus#1367"
+		},
+		{
+			"name": "Alessio Giuseppe Cali'",
+			"url": "https://alessiogcali.com/"
+		}
+	],
+	"esmodules": ["scripts/scene-clicker.js"],
+	"dependencies": [
+		{
+			"name": "lib-wrapper"
+		}
+	],
+	"url": "https://github.com/jegasus/scene-clicker",
+	"manifest": "https://github.com/jegasus/scene-clicker/releases/latest/download/module.json",
+	"download": "https://github.com/jegasus/scene-clicker/releases/download/0.0.11/module.zip",
+	"bugs": "https://github.com/jegasus/scene-clicker/issues",
+	"flags": {
+		"allowBugReporter": true
+	}
 }

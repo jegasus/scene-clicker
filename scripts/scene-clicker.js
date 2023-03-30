@@ -120,18 +120,9 @@ Hooks.on('init', () => {
 });
 
 // New function for clicking on a Journal link
-function new_onClickContentLink(event,existing_onClickContentLink){
+async function new_onClickContentLink(event,existing_onClickContentLink){
   event.preventDefault();
-  const currentTarget = event.currentTarget;
-  let document = null;
-
-  // Target is not World Document Link, defer to existing callback.
-  if ( currentTarget.dataset.pack ) {
-    return existing_onClickContentLink.bind(this)(event);
-  }
-  
-  const collection = game.collections.get(currentTarget.dataset.type);
-  document = collection.get(currentTarget.dataset.id);
+  const document = await fromUuid(event.currentTarget.dataset.uuid);
 
   if (!handleSceneClicked(event, document)) {
     return existing_onClickContentLink.bind(this)(event);
